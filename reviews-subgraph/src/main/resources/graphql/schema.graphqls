@@ -1,9 +1,4 @@
-type Product @key(fields: "id") @extends {
-    id: ID! @external
-    reviews: [Review!]!
-}
-
-type Review {
+type Review @key(fields: "id") {
     id: ID!,
     text: String
     starRating: Int!
