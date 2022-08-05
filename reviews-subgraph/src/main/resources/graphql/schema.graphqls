@@ -3,3 +3,7 @@ type Review @key(fields: "id") {
     text: String
     starRating: Int!
 }
+
+type Query {
+    getReviewByIds(ids: [ID!]!): [Review]!
+}
