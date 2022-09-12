@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.apollographql.federation:federation-graphql-java-support:2.0.6")
+    implementation("com.apollographql.federation:federation-graphql-java-support:2.0.7")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
