@@ -1,0 +1,10 @@
+federation_version: 2
+subgraphs:
+  products:
+    routing_url: http://products:8080/graphql
+    schema:
+      file: ./products-subgraph/src/main/resources/graphql/schema.graphqls
+  reviews:
+    routing_url: http://reviews:8081/graphql
+    schema:
+      file: ./reviews-subgraph/src/main/resources/graphql/schema.graphqls

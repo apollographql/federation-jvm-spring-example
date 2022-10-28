@@ -9,13 +9,6 @@ on:
       - main
 
 jobs:
-#  setup-router:
-#    timeout-minutes: 5
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-
   build-products:
     timeout-minutes: 5
     runs-on: ubuntu-latest
@@ -35,7 +28,13 @@ jobs:
       - name: Set up Gradle cache
         uses: gradle/gradle-build-action@v2
       - name: Build products subgraph with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build bootJar
+      - name: Upload JAR
+        uses: actions/upload-artifact@v3
+        with:
+          name: products.jar
+          path: ./products-subgraph/build/libs/products.jar
+          retention-days: 1
 
 
   build-reviews:
@@ -56,21 +55,78 @@ jobs:
           distribution: 'zulu'
       - name: Set up Gradle cache
         uses: gradle/gradle-build-action@v2
-      - name: Build products subgraph with Gradle
-        run: ./gradlew clean build
+      - name: Build reviews subgraph with Gradle
+        run: ./gradlew clean build bootJar
+      - name: Upload JAR
+        uses: actions/upload-artifact@v3
+        with:
+          name: reviews.jar
+          path: ./reviews-subgraph/build/libs/reviews.jar
+          retention-days: 1
 
-#  build-supergraph:
-#    timeout-minutes: 5
-#    runs-on: ubuntu-latest
-#    needs: [setup-router, build-products, build-supergraph]
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#  test:
-#    timeout-minutes: 10
-#    runs-on: ubuntu-latest
-#    needs: build-supergraph
-#
-#    steps:
-#      - uses: actions/checkout@v3
+  build-supergraph:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup rover CLI
+        run: |
+          curl -sSL https://rover.apollo.dev/nix/latest | sh -s -- --elv2-license accept
+          echo "$HOME/.rover/bin" >> ${GITHUB_PATH}
+      - name: Compose Supergraph
+        run: APOLLO_ELV2_LICENSE=accept rover supergraph compose --config supergraph.yaml > supergraph.graphql
+      - name: Upload Supergraph config
+        uses: actions/upload-artifact@v3
+        with:
+          name: supergraph.graphql
+          path: supergraph.graphql
+          retention-days: 1
+
+  federation-test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    needs: [build-products, build-reviews, build-supergraph]
+
+    steps:
+      - uses: actions/checkout@v3
+      # we are using separate download actions as otherwise artifacts are placed in folders
+      - name: Download products JAR
+        uses: actions/download-artifact@v3
+        with:
+          name: products.jar
+      - name: Download reviews JAR
+        uses: actions/download-artifact@v3
+        with:
+          name: reviews.jar
+      - name: Download Supergraph config
+        uses: actions/download-artifact@v3
+        with:
+          name: supergraph.graphql
+      - name: Start up Supergraph
+        run: docker compose up --build --detach --wait
+      - name: Federation Tests
+        run: |
+          set -x
+          echo "verify router is up"
+          curl --verbose http://localhost:8088/health
+
+          echo "sending a test query"
+          curl --request POST \
+            --verbose \
+            --header 'content-type: application/json' \
+            --url http://localhost:3000/ \
+            --data '{"query":"query($productId: ID!) {\n  product(id: $productId) {\n    id\n    reviews {\n      id\n      text\n      starRating\n    }\n    name\n    description\n  }\n}","variables":{"productId":"5"}}' \
+            > response.json
+
+          echo "received GraphQL response"
+          cat response.json
+
+          echo "verifying response"
+          jq -e '.data.product?.id == "5" and .data.product?.name == "Dragon" and (.data.product?.reviews | length == 2) and (.data.product?.reviews[0]?.text | length > 0)' response.json
+      - name: Error Logs
+        if: ${{ failure() }}
+        run: docker-compose logs
+      - name: Stop Supergraph
+        if: ${{ always() }}
+        run: docker compose down --remove-orphans

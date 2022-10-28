@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
 	id("org.springframework.boot") version "2.7.5"
 	id("io.spring.dependency-management") version "1.1.0"
@@ -14,6 +16,7 @@ repositories {
 val federation_jvm_version: String = project.property("federation-jvm.version").toString()
 dependencies {
     implementation("com.apollographql.federation:federation-graphql-java-support:$federation_jvm_version")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -26,6 +29,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-tasks.withType<Test>() {
+tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.named<BootJar>("bootJar") {
+    archiveFileName.set("products.jar")
 }
