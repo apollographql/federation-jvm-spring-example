@@ -3,11 +3,10 @@
 [Apollo Federation JVM](https://github.com/apollographql/federation-jvm) example implementation using [Spring GraphQL](https://docs.spring.io/spring-graphql/docs/current/reference/html/).
 If you want to discuss the project or just say hi, stop by [the Apollo community forums](https://community.apollographql.com/).
 
-The repository contains three separate projects:
+The repository contains two separate projects:
 
 1. `products-subgraph`: A Java GraphQL service providing the federated `Product` type
 2. `reviews-subgraph`: A Java GraphQL service that extends the `Product` type with `reviews`
-3. `gateway`: An instance of Apollo Server acting as the Federated Gateway
 
 See individual projects READMEs for detailed instructions on how to run them.
 
@@ -16,10 +15,22 @@ Running the demo
 
 1. Start `products-subgraph` by running the Spring Boot app from the IDE or by running `./gradlew bootRun` from `products-subgraph` project
 2. Start `reviews-subgraph` by running the Spring Boot app from the IDE or `./gradlew bootRun` from `reviews-subgraph` project
-3. Start Federated Gateway
-   1. Install required packages by running `npm install` in the `gateway` project
-   2. Start gateway by running `npm run start` in the `gateway` project
-4. Open http://localhost:4000 for the query editor
+3. Start Federated Router
+   1. Install [rover CLI](https://www.apollographql.com/docs/rover/getting-started)
+   2. Start router and compose products schema using [rover dev command](https://www.apollographql.com/docs/rover/commands/dev)
+
+    ```shell
+    # start up router and compose products schema
+    rover dev --name products --schema ./products-subgraph/src/main/resources/graphql/schema.graphqls --url http://localhost:8080/graphql
+    ```
+
+   3. In **another** shell run `rover dev` to compose reviews schema
+
+    ```shell
+    rover dev --name reviews --schema ./reviews-subgraph/src/main/resources/graphql/schema.graphqls --url http://localhost:8080/graphql
+    ```
+
+4. Open http://localhost:3000 for the query editor
 
 Example federated query
 
