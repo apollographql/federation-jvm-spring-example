@@ -27,7 +27,7 @@ Running the demo
    3. In **another** shell run `rover dev` to compose reviews schema
 
     ```shell
-    rover dev --name reviews --schema ./reviews-subgraph/src/main/resources/graphql/schema.graphqls --url http://localhost:8080/graphql
+    rover dev --name reviews --schema ./reviews-subgraph/src/main/resources/graphql/schema.graphqls --url http://localhost:8081/graphql
     ```
 
 4. Open http://localhost:3000 for the query editor
