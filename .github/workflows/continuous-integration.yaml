@@ -12,9 +12,6 @@ jobs:
   build-products:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./products-subgraph
 
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +25,7 @@ jobs:
       - name: Set up Gradle cache
         uses: gradle/gradle-build-action@v2
       - name: Build products subgraph with Gradle
-        run: ./gradlew clean build bootJar
+        run: ./gradlew :products-subgraph:clean :products-subgraph:build :products-subgraph:bootJar
       - name: Upload JAR
         uses: actions/upload-artifact@v3
         with:
@@ -40,9 +37,6 @@ jobs:
   build-reviews:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./reviews-subgraph
 
     steps:
       - uses: actions/checkout@v3
@@ -56,7 +50,7 @@ jobs:
       - name: Set up Gradle cache
         uses: gradle/gradle-build-action@v2
       - name: Build reviews subgraph with Gradle
-        run: ./gradlew clean build bootJar
+        run: ./gradlew :reviews-subgraph:clean :reviews-subgraph:build :reviews-subgraph:bootJar
       - name: Upload JAR
         uses: actions/upload-artifact@v3
         with:
