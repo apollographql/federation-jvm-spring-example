@@ -2,7 +2,7 @@ cors:
   # allow_credentials: true
   allow_any_origin: true
 
-health-check:
+health_check:
   listen: 0.0.0.0:8088
   enabled: true
 
@@ -15,3 +15,6 @@ sandbox:
 supergraph:
   listen: 0.0.0.0:3000
   introspection: true
+
+include_subgraph_errors:
+  all: true
