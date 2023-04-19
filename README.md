@@ -13,8 +13,8 @@ See individual projects READMEs for detailed instructions on how to run them.
 Running the demo
 ----
 
-1. Start `products-subgraph` by running the Spring Boot app from the IDE or by running `./gradlew bootRun` from `products-subgraph` project
-2. Start `reviews-subgraph` by running the Spring Boot app from the IDE or `./gradlew bootRun` from `reviews-subgraph` project
+1. Start `products-subgraph` by running the `ProductsApplication` Spring Boot app from the IDE or by running `./gradlew :products-subgraph:bootRun` from the root project directory
+2. Start `reviews-subgraph` by running the `ReviewsApplication` Spring Boot app from the IDE or `./gradlew :reviews-subgraph:bootRun` from the root project directory
 3. Start Federated Router
    1. Install [rover CLI](https://www.apollographql.com/docs/rover/getting-started)
    2. Start router and compose products schema using [rover dev command](https://www.apollographql.com/docs/rover/commands/dev)
