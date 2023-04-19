@@ -10,10 +10,10 @@
 build/
 out/
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
 # ignore files used for composition
 *.jar
 supergraph.graphql
 response.json
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
