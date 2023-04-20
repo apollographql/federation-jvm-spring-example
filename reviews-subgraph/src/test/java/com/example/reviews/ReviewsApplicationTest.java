@@ -4,24 +4,20 @@ import com.example.reviews.model.Review;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureHttpGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.graphql.test.tester.HttpGraphQlTester;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
+@AutoConfigureHttpGraphQlTester
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ReviewsApplicationTest {
 
-  @LocalServerPort
-  int serverPort;
+  @Autowired
+  private HttpGraphQlTester tester;
 
   @Test
   public void verifiesProductQuery() {
-    WebTestClient testClient = WebTestClient.bindToServer()
-      .baseUrl("http://localhost:" + serverPort + "/graphql")
-      .build();
-    HttpGraphQlTester tester = HttpGraphQlTester.create(testClient);
-
     String query = """
       query Entities($representations: [_Any!]!) {
         _entities(representations: $representations) {
