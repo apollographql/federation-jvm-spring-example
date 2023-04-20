@@ -19,7 +19,7 @@ public class ReviewsController {
     "5", List.of(new Review("1050", "Amazing! Would Fly Again!", 5), new Review("1051", 5))
   );
 
-  @SchemaMapping(typeName="Product", field="reviews")
+  @SchemaMapping
   public List<Review> reviews(Product show) {
     return REVIEWS.getOrDefault(show.id(), Collections.emptyList());
   }
