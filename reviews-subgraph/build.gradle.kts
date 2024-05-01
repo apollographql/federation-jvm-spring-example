@@ -1,7 +1,7 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
-	id("org.springframework.boot") version "3.1.4"
+	id("org.springframework.boot") version "3.3.0-RC1"
 	id("io.spring.dependency-management") version "1.1.3"
 	java
 }
@@ -11,6 +11,7 @@ version = "0.0.1-SNAPSHOT"
 
 repositories {
 	mavenCentral()
+    maven("https://repo.spring.io/milestone")
 }
 
 val federation_jvm_version: String = project.property("federation-jvm.version").toString()
