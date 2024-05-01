@@ -7,9 +7,9 @@ package com.example.products.model;
  *     description: String
  * }
  */
-public record Product(String id, String name, String description) {
+public record Product(Long id, String name, String description) {
 
-  public Product(String id, String name) {
+  public Product(Long id, String name) {
     this(id, name, null);
   }
 }

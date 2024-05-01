@@ -33,6 +33,6 @@ public class ProductsApplicationTest {
       .execute()
       .path("product")
       .entity(Product.class)
-      .isEqualTo(new Product("1","Saturn V", "The Original Super Heavy-Lift Rocket!"));
+      .isEqualTo(new Product(1L,"Saturn V", "The Original Super Heavy-Lift Rocket!"));
   }
 }
