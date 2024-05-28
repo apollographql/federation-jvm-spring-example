@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Set up Java 17
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Set up Java 17
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup rover CLI
         run: |
           curl -sSL https://rover.apollo.dev/nix/latest | sh -s -- --elv2-license accept
@@ -83,7 +83,7 @@ jobs:
     needs: [build-products, build-reviews, build-supergraph]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # we are using separate download actions as otherwise artifacts are placed in folders
       - name: Download products JAR
         uses: actions/download-artifact@v3
