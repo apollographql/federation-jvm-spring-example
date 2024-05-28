@@ -27,7 +27,7 @@ jobs:
       - name: Build products subgraph with Gradle
         run: ./gradlew :products-subgraph:clean :products-subgraph:build :products-subgraph:bootJar
       - name: Upload JAR
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: products.jar
           path: ./products-subgraph/build/libs/products.jar
@@ -52,7 +52,7 @@ jobs:
       - name: Build reviews subgraph with Gradle
         run: ./gradlew :reviews-subgraph:clean :reviews-subgraph:build :reviews-subgraph:bootJar
       - name: Upload JAR
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reviews.jar
           path: ./reviews-subgraph/build/libs/reviews.jar
@@ -71,7 +71,7 @@ jobs:
       - name: Compose Supergraph
         run: APOLLO_ELV2_LICENSE=accept rover supergraph compose --config supergraph.yaml > supergraph.graphql
       - name: Upload Supergraph config
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: supergraph.graphql
           path: supergraph.graphql
@@ -86,15 +86,15 @@ jobs:
       - uses: actions/checkout@v3
       # we are using separate download actions as otherwise artifacts are placed in folders
       - name: Download products JAR
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: products.jar
       - name: Download reviews JAR
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: reviews.jar
       - name: Download Supergraph config
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: supergraph.graphql
       - name: Start up Supergraph
