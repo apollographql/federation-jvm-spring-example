@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:21
 EXPOSE 8081
 
 ARG JAR_FILE=build/libs/reviews.jar
