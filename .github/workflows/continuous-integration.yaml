@@ -23,7 +23,7 @@ jobs:
           java-version: 17
           distribution: 'zulu'
       - name: Set up Gradle cache
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
       - name: Build products subgraph with Gradle
         run: ./gradlew :products-subgraph:clean :products-subgraph:build :products-subgraph:bootJar
       - name: Upload JAR
@@ -48,7 +48,7 @@ jobs:
           java-version: 17
           distribution: 'zulu'
       - name: Set up Gradle cache
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
       - name: Build reviews subgraph with Gradle
         run: ./gradlew :reviews-subgraph:clean :reviews-subgraph:build :reviews-subgraph:bootJar
       - name: Upload JAR
