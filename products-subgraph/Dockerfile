@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:17.0.2
 EXPOSE 8080
 
 ARG JAR_FILE=build/libs/products.jar
